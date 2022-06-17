@@ -1,3 +1,4 @@
+```text
 <valid semver> ::= <version core>
 | <version core> "-" <pre-release>
 | <version core> "+" <build>
@@ -59,3 +60,4 @@
 | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n"
 | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x"
 | "y" | "z"
+```
