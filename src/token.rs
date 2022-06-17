@@ -13,7 +13,7 @@ enum TokenKind {
     AlphaNumericIdentifier,
 }
 
-struct Token {
+pub struct Token {
     kind: TokenKind,
     position: usize,
     lexeme: String,
