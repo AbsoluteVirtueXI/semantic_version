@@ -194,11 +194,18 @@ mod tests {
         assert!(false);
     }
 
+    #[test]
     fn minor_incrementation() {
         assert!(false);
     }
 
+    #[test]
     fn patch_incrementation() {
+        assert!(false);
+    }
+
+    #[test]
+    fn semver_addition() {
         assert!(false);
     }
 }
