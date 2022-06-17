@@ -10,24 +10,38 @@ pub struct SemVer {
     build: Option<String>,
 }
 
-impl Display for SemVer {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        let pre_release = match &self.pre_release {
-            Some(pre_release) => format!("-{}", pre_release),
-            None => String::new(),
-        };
+impl SemVer {
+    pub const ZERO: Self = Self {
+        major: 0,
+        minor: 0,
+        patch: 0,
+        pre_release: None,
+        build: None,
+    };
 
-        let build = match &self.build {
-            Some(build) => format!("+{}", build),
-            None => String::new(),
-        };
+    pub const ONE_MAJOR: Self = Self {
+        major: 1,
+        minor: 0,
+        patch: 0,
+        pre_release: None,
+        build: None,
+    };
 
-        write!(
-            f,
-            "{}.{}.{}{}{}",
-            self.major, self.minor, self.patch, pre_release, build,
-        )
-    }
+    pub const ONE_MINOR: Self = Self {
+        major: 0,
+        minor: 1,
+        patch: 0,
+        pre_release: None,
+        build: None,
+    };
+
+    pub const ONE_PATCH: Self = Self {
+        major: 0,
+        minor: 0,
+        patch: 1,
+        pre_release: None,
+        build: None,
+    };
 }
 
 impl SemVer {
@@ -76,38 +90,37 @@ impl Default for SemVer {
     }
 }
 
-impl SemVer {
-    pub const ZERO: Self = Self {
-        major: 0,
-        minor: 0,
-        patch: 0,
-        pre_release: None,
-        build: None,
-    };
+impl Display for SemVer {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        let pre_release = match &self.pre_release {
+            Some(pre_release) => format!("-{}", pre_release),
+            None => String::new(),
+        };
 
-    pub const ONE_MAJOR: Self = Self {
-        major: 1,
-        minor: 0,
-        patch: 0,
-        pre_release: None,
-        build: None,
-    };
+        let build = match &self.build {
+            Some(build) => format!("+{}", build),
+            None => String::new(),
+        };
 
-    pub const ONE_MINOR: Self = Self {
-        major: 0,
-        minor: 1,
-        patch: 0,
-        pre_release: None,
-        build: None,
-    };
+        write!(
+            f,
+            "{}.{}.{}{}{}",
+            self.major, self.minor, self.patch, pre_release, build,
+        )
+    }
+}
 
-    pub const ONE_PATCH: Self = Self {
-        major: 0,
-        minor: 0,
-        patch: 1,
-        pre_release: None,
-        build: None,
-    };
+impl Add for SemVer {
+    type Output = Self;
+    fn add(self, rhs: Self) -> Self::Output {
+        Self {
+            major: self.major + rhs.major,
+            minor: self.minor + rhs.minor,
+            patch: self.patch + rhs.patch,
+            pre_release: None,
+            build: None,
+        }
+    }
 }
 
 pub struct RangeSemVer {
@@ -187,18 +200,5 @@ mod tests {
 
     fn patch_incrementation() {
         assert!(false);
-    }
-}
-
-impl Add for SemVer {
-    type Output = Self;
-    fn add(self, rhs: Self) -> Self::Output {
-        Self {
-            major: self.major + rhs.major,
-            minor: self.minor + rhs.minor,
-            patch: self.patch + rhs.patch,
-            pre_release: None,
-            build: None,
-        }
     }
 }
