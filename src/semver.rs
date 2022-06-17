@@ -1,6 +1,7 @@
 use std::fmt::{Display, Formatter, Result};
-use std::ops::Add;
+use std::ops::{Add, Sub};
 
+/// Semantic version data structure.
 #[derive(Debug, PartialEq, Eq)]
 pub struct SemVer {
     major: u32,
@@ -90,6 +91,8 @@ impl Default for SemVer {
     }
 }
 
+// TODO: implement From &str/string constructor
+
 impl Display for SemVer {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         let pre_release = match &self.pre_release {
@@ -117,6 +120,19 @@ impl Add for SemVer {
             major: self.major + rhs.major,
             minor: self.minor + rhs.minor,
             patch: self.patch + rhs.patch,
+            pre_release: None,
+            build: None,
+        }
+    }
+}
+
+impl Sub for SemVer {
+    type Output = Self;
+    fn sub(self, rhs: Self) -> Self::Output {
+        Self {
+            major: self.major.saturating_sub(rhs.major),
+            minor: self.minor.saturating_sub(rhs.minor),
+            patch: self.minor.saturating_sub(rhs.minor),
             pre_release: None,
             build: None,
         }
@@ -206,6 +222,11 @@ mod tests {
 
     #[test]
     fn semver_addition() {
+        assert!(false);
+    }
+
+    #[test]
+    fn semver_substraction() {
         assert!(false);
     }
 }
